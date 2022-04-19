@@ -1,0 +1,69 @@
+{{extend '../_layouts/home.html'}} {{block 'title'}}{{'博客 - 首页'}}{{/block}} {{block 'head'}}
+<link rel="stylesheet" href="/public/css/markdown-github.css">
+<style>
+    .panel .panel-heading .action i {
+        margin-right: 10px;
+    }
+</style>
+{{/block}} {{block 'body'}}
+<section class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="markdown-body">
+                {{@data.demo}}
+            </div>
+            <hr>
+            <h4>留下你宝贵的评论:</h4>
+            {{each index}}
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span>{{$value.nickname}}</span> commented
+                    <span>{{$value.created_time}}</span>
+                    <span class="action">
+                      <a href=""><i class="glyphicon glyphicon-thumbs-up pull-right"></i></a>
+                      <a href=""><i class="glyphicon glyphicon-remove-circle pull-right"></i></a>
+                      <a href=""><i class="glyphicon glyphicon-remove-circle pull-right"></i></a>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    {{@$value.reply}}
+                </div>
+            </div>
+            {{/each}}
+
+            <form id="content_form">
+                <div class="form-group">
+                    <label for="exampleInputPassword1">添加回复</label>
+                    <textarea class="form-control" name="reply" id="" cols="10" rows="10"></textarea>
+                </div>
+                <button type="submit" class="btn btn-success">回复</button>
+            </form>
+        </div>
+    </div>
+</section>
+<script src="/node_modules/jquery/dist/jquery.js"></script>
+<script>
+    $('#content_form').on('submit', function(e) {
+        e.preventDefault()
+        var formData = $(this).serialize()
+        $.ajax({
+            url: '/show',
+            type: 'post',
+            data: formData,
+            dataType: 'json',
+            success: function(data) {
+                const err_code = data.err_code
+                console.log(err_code);
+                if (err_code === 500) {
+                    window.alert('服务器忙，请稍后重试')
+                } else if (err_code === 200) {
+                    window.location.href = '/'
+                } else if (err_code === 400) {
+                    alert('请登录后评论！')
+                }
+            }
+        })
+    })
+</script>
+{{/block}}

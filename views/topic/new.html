@@ -1,0 +1,51 @@
+{{extend '../_layouts/home.html'}} {{block 'title'}}{{'多人博客 - 首页'}}{{/block}} {{block 'body'}}
+<section class="container">
+    <div class="row">
+        <div class="col-md-5">
+            <form id="new_form">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">选择板块</label>
+                    <select class="form-control">
+                        <option>分享</option>
+                        <option>问答</option>
+                        <option>招聘</option>
+                        <option>客户端测试</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">标题</label>
+                    <input type="text" name="title" class="form-control" id="" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="">内容</label>
+                    <textarea class="form-control" rows="3" name="content"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</section>
+<script src="/node_modules/jquery/dist/jquery.js"></script>
+<script>
+    $('#new_form').on('submit', function(e) {
+        e.preventDefault()
+        var formData = $(this).serialize()
+            // console.log(formData)
+        $.ajax({
+            url: '/new',
+            type: 'post',
+            data: formData,
+            dataType: 'json',
+            success: function(data) {
+                // console.log(data);
+                const err_code = data.err_code
+                if (err_code === 500) {
+                    window.alert("错误")
+                } else {
+                    window.location.href = '/'
+                }
+            }
+        })
+    })
+</script>
+{{/block}}

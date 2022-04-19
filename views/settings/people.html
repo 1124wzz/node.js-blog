@@ -1,0 +1,45 @@
+{{extend '../_layouts/home.html'}} {{block 'title'}}{{'多人博客 - 首页'}}{{/block}} {{block 'body'}}
+<section class="container">
+    <div class="col-md-5">
+        <form id="setting_form">
+            <div class="form-group">
+                <label for="exampleInputEmail1">您的账号</label>
+                <p class="form-control-static">{{data.email}}</p>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">您的昵称</label>
+                <p class="form-control-static">{{data.nickname}}</p>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">介绍</label>
+                <p class="form-control-static">{{data.bio}}</p>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">性别</label> {{if data.gender=='0'}}
+                <p class="form-control-static">男</p>
+                {{else if data.gender=='1'}}
+                <p class="form-control-static">女</p>
+                {{else}}
+                <p class="form-control-static">保密</p>
+                {{/if}}
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">生日</label>
+                <p class="form-control-static">{{data.birthday}}</p>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">创建时间</label>
+                <p class="form-control-static">{{data.created_time}}</p>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-2 profile-avatar">
+        <dl>
+            <dt>用户头像</dt>
+            <dd>
+                <img class="avatar" name="avatar" width="150" height="150" src="{{data.avatar}}" alt="">
+            </dd>
+        </dl>
+    </div>
+</section>
+{{/block}}
